@@ -54,7 +54,7 @@
             text-color="rgba(245,241,235,0.65)"
             active-text-color="#9CAF88"
             router
-            class="sidebar-menu"
+            :class="['sidebar-menu', { 'is-collapsed': isCollapse }]"
           >
             <!-- 概览菜单组 -->
             <div class="menu-group" v-show="!isCollapse">
@@ -516,6 +516,15 @@ onUnmounted(() => {
   margin: 0 2px;
 }
 
+/* 菜单 */
+.sidebar-menu {
+  border-right: none !important;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 14px;
+}
+
 .group-label {
   font-size: 0.7rem;
   font-weight: 700;
@@ -531,22 +540,13 @@ onUnmounted(() => {
   background: linear-gradient(90deg, rgba(157, 175, 136, 0.2), transparent 80%);
 }
 
-/* 菜单 */
-.sidebar-menu {
-  border-right: none !important;
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 8px 14px;
-}
-
 /* 菜单项基础样式 - 优化对齐 */
 .sidebar-menu :deep(.el-menu-item) {
   height: 52px;
   line-height: 52px;
   margin: 6px 0;
   border-radius: 12px;
-  padding: 0 16px !important;
+  padding: 0 16px 0 12px !important;
   position: relative;
   overflow: visible;
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -665,15 +665,15 @@ onUnmounted(() => {
   transform: translateX(2px);
 }
 
-/* 折叠状态菜单 */
-.sidebar-menu:deep(.el-menu--collapse) {
-  padding: 10px 0;
-  width: 100%;
+/* 折叠状态菜单 - 覆盖 sidebar-menu 内部水平 padding */
+.sidebar-menu.is-collapsed {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
-/* 菜单项 - 水平垂直居中，整体往左移 */
-.sidebar-menu:deep(.el-menu--collapse) .el-menu-item {
-  margin: 5px 0;
+/* 折叠菜单项 - 绝对居中 */
+.sidebar-menu.is-collapsed :deep(.el-menu-item) {
+  margin: 5px calc((100% - 40px) / 2) !important;
   width: 40px;
   height: 40px;
   padding: 0 !important;
@@ -682,27 +682,32 @@ onUnmounted(() => {
   justify-content: center;
   border-radius: 10px;
   transform-origin: center center;
-  /* 整体往左移，避免超出右边 */
-  margin-left: 8px;
-  margin-right: auto;
+  transform: none !important;
 }
 
 /* 折叠状态下的悬停 */
-.sidebar-menu:deep(.el-menu--collapse) .el-menu-item:hover {
+.sidebar-menu.is-collapsed :deep(.el-menu-item):hover {
   background: rgba(157, 175, 136, 0.15) !important;
+  transform: none !important;
 }
 
-/* 折叠状态下的选中效果 - 使用边框发光而非缩放 */
-.sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active {
+/* 折叠状态下的选中效果 */
+.sidebar-menu.is-collapsed :deep(.el-menu-item).is-active {
   background: rgba(157, 175, 136, 0.22) !important;
   box-shadow:
     inset 0 0 0 1px rgba(157, 175, 136, 0.4),
     0 0 20px rgba(157, 175, 136, 0.3);
+  transform: none !important;
 }
 
-/* 图标容器 */
-.sidebar-menu:deep(.el-menu--collapse) .menu-icon-wrap {
-  margin: 0;
+/* 折叠状态 - 菜单项指示条隐藏 */
+.sidebar-menu.is-collapsed :deep(.el-menu-item)::before {
+  display: none;
+}
+
+/* 折叠状态 - 图标容器居中 */
+.sidebar-menu.is-collapsed :deep(.menu-icon-wrap) {
+  margin: 0 !important;
   width: 28px;
   height: 28px;
   border-radius: 6px;
@@ -712,13 +717,25 @@ onUnmounted(() => {
   font-size: 16px;
 }
 
-/* 折叠状态下的图标效果 */
-.sidebar-menu:deep(.el-menu--collapse) .el-menu-item:hover .menu-icon-wrap {
+/* 折叠状态 - 覆盖 el-menu-tooltip__trigger（#title 插槽的额外包装）
+   防止绝对定位 + padding 撑爆图标容器 */
+.sidebar-menu.is-collapsed :deep(.el-menu-tooltip__trigger) {
+  position: static !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 28px !important;
+  height: 28px !important;
+}
+
+/* 折叠状态下的图标悬停效果 */
+.sidebar-menu.is-collapsed :deep(.el-menu-item):hover .menu-icon-wrap {
   background: rgba(157, 175, 136, 0.3);
   transform: scale(1.08);
 }
 
-.sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active .menu-icon-wrap {
+.sidebar-menu.is-collapsed :deep(.el-menu-item).is-active .menu-icon-wrap {
   background: rgba(157, 175, 136, 0.35);
   color: #B8D4A8;
 }
