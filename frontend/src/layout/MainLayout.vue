@@ -667,40 +667,45 @@ onUnmounted(() => {
 
 /* 折叠状态菜单 */
 .sidebar-menu:deep(.el-menu--collapse) {
-  padding: 12px 10px;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .sidebar-menu:deep(.el-menu--collapse) .el-menu-item {
-  margin: 8px auto;
-  width: 52px;
-  height: 52px;
+  margin: 8px 0;
+  width: 48px;
+  height: 48px;
   padding: 0 !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
+  border-radius: 12px;
+  position: relative;
+  left: -2px;
 }
 
 /* 折叠状态下的选中效果 */
 .sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active {
-  transform: scale(1.1);
+  transform: scale(1.08);
   background: rgba(157, 175, 136, 0.2) !important;
 }
 
 .sidebar-menu:deep(.el-menu--collapse) .menu-icon-wrap {
   margin: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
 }
 
 /* 折叠状态下的悬停 */
 .sidebar-menu:deep(.el-menu--collapse) .el-menu-item:hover {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 .sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active:hover {
-  transform: scale(1.12);
+  transform: scale(1.1);
 }
 
 /* 侧边栏底部用户卡片 */
