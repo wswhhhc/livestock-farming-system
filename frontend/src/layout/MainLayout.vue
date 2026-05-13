@@ -8,7 +8,7 @@
 
     <el-container class="layout-container">
       <!-- 侧边栏 - 深色有机主题 -->
-      <el-aside :width="isCollapse ? '72px' : '260px'" class="sidebar">
+      <el-aside :width="isCollapse ? '64px' : '260px'" class="sidebar">
         <div class="sidebar-inner">
           <!-- Logo区域 -->
           <div class="sidebar-header">
@@ -667,45 +667,60 @@ onUnmounted(() => {
 
 /* 折叠状态菜单 */
 .sidebar-menu:deep(.el-menu--collapse) {
-  padding: 12px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 10px 0;
+  width: 100%;
 }
 
+/* 菜单项 - 水平垂直居中 */
 .sidebar-menu:deep(.el-menu--collapse) .el-menu-item {
-  margin: 8px 0;
-  width: 48px;
-  height: 48px;
+  margin: 5px 0;
+  width: 40px;
+  height: 40px;
   padding: 0 !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  position: relative;
-  left: -2px;
-}
-
-/* 折叠状态下的选中效果 */
-.sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active {
-  transform: scale(1.08);
-  background: rgba(157, 175, 136, 0.2) !important;
-}
-
-.sidebar-menu:deep(.el-menu--collapse) .menu-icon-wrap {
-  margin: 0;
-  width: 36px;
-  height: 36px;
   border-radius: 10px;
+  transform-origin: center center;
+  /* 关键：确保在 64px 宽度中居中 */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* 折叠状态下的悬停 */
 .sidebar-menu:deep(.el-menu--collapse) .el-menu-item:hover {
-  transform: scale(1.05);
+  background: rgba(157, 175, 136, 0.15) !important;
 }
 
-.sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active:hover {
-  transform: scale(1.1);
+/* 折叠状态下的选中效果 - 使用边框发光而非缩放 */
+.sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active {
+  background: rgba(157, 175, 136, 0.22) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(157, 175, 136, 0.4),
+    0 0 20px rgba(157, 175, 136, 0.3);
+}
+
+/* 图标容器 */
+.sidebar-menu:deep(.el-menu--collapse) .menu-icon-wrap {
+  margin: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* 折叠状态下的图标效果 */
+.sidebar-menu:deep(.el-menu--collapse) .el-menu-item:hover .menu-icon-wrap {
+  background: rgba(157, 175, 136, 0.3);
+  transform: scale(1.08);
+}
+
+.sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active .menu-icon-wrap {
+  background: rgba(157, 175, 136, 0.35);
+  color: #B8D4A8;
 }
 
 /* 侧边栏底部用户卡片 */
