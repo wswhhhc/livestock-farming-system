@@ -507,27 +507,28 @@ onUnmounted(() => {
   white-space: nowrap;
 }
 
-/* 菜单组 */
+/* 菜单组 - 优化对齐 */
 .menu-group {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 20px 20px 8px;
+  gap: 12px;
+  padding: 24px 16px 10px;
+  margin: 0 2px;
 }
 
 .group-label {
   font-size: 0.7rem;
-  font-weight: 600;
-  color: rgba(245, 241, 235, 0.3);
+  font-weight: 700;
+  color: rgba(245, 241, 235, 0.35);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   white-space: nowrap;
 }
 
 .group-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(157, 175, 136, 0.15), transparent);
+  background: linear-gradient(90deg, rgba(157, 175, 136, 0.2), transparent 80%);
 }
 
 /* 菜单 */
@@ -536,107 +537,170 @@ onUnmounted(() => {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 8px 12px;
+  padding: 8px 14px;
 }
 
+/* 菜单项基础样式 - 优化对齐 */
 .sidebar-menu :deep(.el-menu-item) {
-  height: 48px;
-  line-height: 48px;
-  margin: 4px 0;
-  border-radius: 10px;
-  padding: 0 14px !important;
+  height: 52px;
+  line-height: 52px;
+  margin: 6px 0;
+  border-radius: 12px;
+  padding: 0 16px !important;
   position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
+  overflow: visible;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
 }
 
+/* 左侧指示条 */
 .sidebar-menu :deep(.el-menu-item::before) {
   content: '';
   position: absolute;
-  left: 0;
+  left: -14px;
   top: 50%;
   transform: translateY(-50%);
-  width: 3px;
+  width: 4px;
   height: 0;
   background: linear-gradient(180deg, #9CAF88, #5D8C5D);
-  border-radius: 0 3px 3px 0;
-  transition: height 0.3s ease;
+  border-radius: 0 4px 4px 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0;
+}
+
+/* 选中状态 - 左移效果 */
+.sidebar-menu :deep(.el-menu-item.is-active) {
+  background: rgba(157, 175, 136, 0.15) !important;
+  transform: translateX(8px);
+  box-shadow: 0 4px 20px rgba(157, 175, 136, 0.2);
 }
 
 .sidebar-menu :deep(.el-menu-item.is-active::before) {
-  height: 24px;
+  height: 28px;
+  opacity: 1;
+  left: -14px;
 }
 
+/* 悬停效果 */
 .sidebar-menu :deep(.el-menu-item:hover) {
-  background: rgba(157, 175, 136, 0.08) !important;
-  color: rgba(245, 241, 235, 0.9) !important;
+  background: rgba(157, 175, 136, 0.1) !important;
+  color: rgba(245, 241, 235, 0.95) !important;
+  transform: translateX(4px);
 }
 
-.sidebar-menu :deep(.el-menu-item.is-active) {
-  background: rgba(157, 175, 136, 0.12) !important;
+.sidebar-menu :deep(.el-menu-item.is-active:hover) {
+  transform: translateX(8px);
 }
 
+/* 图标容器 - 优化对齐 */
 .menu-icon-wrap {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   background: rgba(245, 241, 235, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
+  margin-right: 14px;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink: 0;
+}
+
+/* 悬停时图标放大 */
+.sidebar-menu :deep(.el-menu-item:hover) .menu-icon-wrap {
+  background: rgba(157, 175, 136, 0.2);
+  color: #9CAF88;
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(157, 175, 136, 0.3);
+}
+
+/* 选中时图标效果 */
+.sidebar-menu :deep(.el-menu-item.is-active) .menu-icon-wrap {
+  background: linear-gradient(135deg, rgba(157, 175, 136, 0.25), rgba(93, 140, 93, 0.15)) !important;
+  color: #9CAF88;
+  transform: scale(1.1);
+  box-shadow: 0 4px 16px rgba(157, 175, 136, 0.4);
+}
+
+/* 菜单标题 */
+.menu-title {
+  font-weight: 500;
+  font-size: 0.92rem;
+  flex: 1;
   transition: all 0.3s ease;
 }
 
-.sidebar-menu :deep(.el-menu-item:hover) .menu-icon-wrap {
-  background: rgba(157, 175, 136, 0.15);
+/* 选中时文字加粗 */
+.sidebar-menu :deep(.el-menu-item.is-active) .menu-title {
+  font-weight: 600;
   color: #9CAF88;
-  transform: scale(1.05);
+  transform: translateX(2px);
 }
 
-.sidebar-menu :deep(.el-menu-item.is-active) .menu-icon-wrap {
-  background: rgba(157, 175, 136, 0.2);
-  color: #9CAF88;
-}
-
-.menu-title {
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
+/* 角标样式 */
 .menu-badge {
   margin-left: auto;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 100px;
   font-size: 0.7rem;
   font-weight: 600;
   background: rgba(201, 123, 123, 0.9);
   color: white;
+  transition: all 0.3s ease;
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 .menu-badge.new {
   background: linear-gradient(135deg, #9CAF88, #5D8C5D);
 }
 
+/* 选中时角标也跟随移动 */
+.sidebar-menu :deep(.el-menu-item.is-active) .menu-badge {
+  transform: translateX(2px);
+}
+
 /* 折叠状态菜单 */
 .sidebar-menu:deep(.el-menu--collapse) {
-  padding: 8px;
+  padding: 12px 10px;
 }
 
 .sidebar-menu:deep(.el-menu--collapse) .el-menu-item {
-  margin: 6px auto;
-  width: 48px;
-  height: 48px;
+  margin: 8px auto;
+  width: 52px;
+  height: 52px;
   padding: 0 !important;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 14px;
+}
+
+/* 折叠状态下的选中效果 */
+.sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active {
+  transform: scale(1.1);
+  background: rgba(157, 175, 136, 0.2) !important;
 }
 
 .sidebar-menu:deep(.el-menu--collapse) .menu-icon-wrap {
   margin: 0;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+
+/* 折叠状态下的悬停 */
+.sidebar-menu:deep(.el-menu--collapse) .el-menu-item:hover {
+  transform: scale(1.08);
+}
+
+.sidebar-menu:deep(.el-menu--collapse) .el-menu-item.is-active:hover {
+  transform: scale(1.12);
 }
 
 /* 侧边栏底部用户卡片 */
