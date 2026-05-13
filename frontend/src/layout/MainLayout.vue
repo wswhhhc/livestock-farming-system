@@ -669,11 +669,14 @@ onUnmounted(() => {
 .sidebar-menu.is-collapsed {
   padding-left: 0 !important;
   padding-right: 0 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 折叠菜单项 - 绝对居中 */
 .sidebar-menu.is-collapsed :deep(.el-menu-item) {
-  margin: 5px calc((100% - 40px) / 2) !important;
+  margin: 5px 0 !important;
   width: 40px;
   height: 40px;
   padding: 0 !important;
@@ -725,8 +728,10 @@ onUnmounted(() => {
   display: flex !important;
   align-items: center;
   justify-content: center;
-  width: 28px !important;
-  height: 28px !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 28px;
+  min-height: 28px;
 }
 
 /* 折叠状态下的图标悬停效果 */
