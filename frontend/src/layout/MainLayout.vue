@@ -671,7 +671,7 @@ onUnmounted(() => {
   width: 100%;
 }
 
-/* 菜单项 - 水平垂直居中 */
+/* 菜单项 - 水平垂直居中，整体往左移 */
 .sidebar-menu:deep(.el-menu--collapse) .el-menu-item {
   margin: 5px 0;
   width: 40px;
@@ -682,8 +682,8 @@ onUnmounted(() => {
   justify-content: center;
   border-radius: 10px;
   transform-origin: center center;
-  /* 关键：确保在 64px 宽度中居中 */
-  margin-left: auto;
+  /* 整体往左移，避免超出右边 */
+  margin-left: 8px;
   margin-right: auto;
 }
 
