@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **前端**: Vue 3 (Composition API + `<script setup>`) + Element Plus + ECharts + Vue Router 4 + Axios + Vite
 - **后端**: Spring Boot 3.3.5 + Java 21 + MyBatis-Plus + MySQL 8.0 + JWT (jjwt 0.12.6) + Lombok
+- **AI**: 硅基流动 API (OpenAI 兼容) — deepseek-ai/DeepSeek-V3，养殖建议 AI 生成
 - **部署**: Docker Compose (Nginx 静态服务 + 后端 jar + MySQL 8.0)
 
 ## 开发命令
@@ -36,7 +37,7 @@ docker compose down        # 停止
 
 ### 本地开发启动
 ```bash
-start.bat          # 终止旧进程 → 启动后端 → 启动前端
+start.bat          # 终止旧进程 → 启动后端 → 启动前端 (dev profile)
 stop.bat           # 终止 8088 和 5173 端口进程
 ```
 
@@ -58,16 +59,16 @@ stop.bat           # 终止 8088 和 5173 端口进程
 ├── backend/                 # Spring Boot 后端
 │   ├── src/main/java/com/livestock/
 │   │   ├── common/          # Result 统一响应, JwtUtil, JwtAuthInterceptor
-│   │   ├── config/          # WebMvcConfig (CORS+拦截器), MyBatisPlus, 全局异常
+│   │   ├── config/          # WebMvcConfig, MyBatisPlus, AiConfig, AiProperties, 全局异常
 │   │   ├── controller/      # REST 控制器
 │   │   ├── dto/             # 数据传输对象
 │   │   ├── entity/          # 数据库实体
 │   │   ├── mapper/          # MyBatis-Plus Mapper 接口
-│   │   └── service/         # 业务逻辑 (impl/)
+│   │   └── service/         # 业务逻辑 (impl/ + AiService)
 │   │       └── impl/        # Service 实现
 │   ├── src/main/resources/
-│   │   ├── application.yml      # 主配置 (数据源, MyBatis-Plus)
-│   │   ├── application-dev.yml  # 开发配置 (SQL 日志)
+│   │   ├── application.yml      # 主配置 (数据源, MyBatis-Plus, AI 配置)
+│   │   ├── application-dev.yml  # 开发配置 (SQL 日志, AI 配置覆盖)
 │   │   └── application-prod.yml
 │   └── pom.xml
 ├── db/
@@ -85,7 +86,7 @@ stop.bat           # 终止 8088 和 5173 端口进程
 4. **存栏变动** (batch_change) — 出栏/死亡/转群/补栏等变动记录，自动影响批次当前存栏量
 5. **成本记录** (cost_record) — 按批次或种类的饲料/苗种/防疫/人工成本
 6. **价格规则** (price_rule) — 按品类+月份的条件浮动规则，用于收益预估
-7. **养殖建议** (breeding_advice + breeding_advice_template) — 模板驱动，按生长阶段生成建议
+7. **养殖建议** (breeding_advice) — AI 驱动 + 系统规则混合生成，调用硅基流动大模型结合批次数据生成建议，同时含出栏提醒、存栏预警、成本异常等系统规则
 8. **收益预估** — 基于存栏量、基准价、价格规则、成本数据计算
 9. **系统配置** (system_config) — 键值对配置 (农场名称、联系电话等)
 10. **用户认证** (sys_user) — 养殖户(1)/管理员(2)，JWT Bearer Token
@@ -97,6 +98,13 @@ stop.bat           # 终止 8088 和 5173 端口进程
 - **认证**: JWT 拦截器，除 `/api/auth/login` 外均需 Bearer Token
 - **全局异常**: `GlobalExceptionHandler` 统一处理
 - **逻辑删除**: 所有表包含 `deleted` 字段，MyBatis-Plus 自动过滤
+
+## AI 养殖建议
+
+- **AiService**: 调用硅基流动 OpenAI 兼容 API，使用 DeepSeek-V3 模型
+- **BreedingAdviceServiceImpl.generate()**: 先并行调用 AI（最多 3 并发），对每个批次构建包含种类、存栏、成本、预估收益等 20+ 字段的上下文，生成专业养殖建议；再按系统规则（出栏、逾期、低存栏、高成本）补充建议
+- **配置**: `application.yml` 中 `ai.*` 配置项，API Key 通过环境变量 `AI_API_KEY` 注入（有默认值）
+- **超时**: 前端 120s，后端 RestTemplate 60s
 
 ## 前端架构模式
 
