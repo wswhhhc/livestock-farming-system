@@ -66,10 +66,8 @@
                 <div class="menu-icon-wrap">
                   <el-icon><Monitor /></el-icon>
                 </div>
-                <template #title>
-                  <span class="menu-title">首页仪表盘</span>
-                  <span class="menu-badge" v-if="pendingCount > 0">{{ pendingCount }}</span>
-                </template>
+                <span class="menu-title">首页仪表盘</span>
+                <span class="menu-badge" v-if="pendingCount > 0">{{ pendingCount }}</span>
               </el-menu-item>
             </el-tooltip>
 
@@ -143,10 +141,8 @@
                 <div class="menu-icon-wrap">
                   <el-icon><ChatDotSquare /></el-icon>
                 </div>
-                <template #title>
-                  <span class="menu-title">养殖建议</span>
-                  <span class="menu-badge new" v-if="hasNewAdvice">NEW</span>
-                </template>
+                <span class="menu-title">养殖建议</span>
+                <span class="menu-badge new" v-if="hasNewAdvice">NEW</span>
               </el-menu-item>
             </el-tooltip>
           </el-menu>
@@ -491,7 +487,7 @@ onUnmounted(() => {
 }
 
 .logo-title {
-  font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  font-family: 'Fraunces', 'Noto Sans SC', sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: rgba(245, 241, 235, 0.95);
@@ -720,20 +716,6 @@ onUnmounted(() => {
   font-size: 16px;
 }
 
-/* 折叠状态 - 覆盖 el-menu-tooltip__trigger（#title 插槽的额外包装）
-   防止绝对定位 + padding 撑爆图标容器 */
-.sidebar-menu.is-collapsed :deep(.el-menu-tooltip__trigger) {
-  position: static !important;
-  padding: 0 !important;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  width: auto !important;
-  height: auto !important;
-  min-width: 28px;
-  min-height: 28px;
-}
-
 /* 折叠状态下的图标悬停效果 */
 .sidebar-menu.is-collapsed :deep(.el-menu-item):hover .menu-icon-wrap {
   background: rgba(157, 175, 136, 0.3);
@@ -784,7 +766,7 @@ onUnmounted(() => {
 }
 
 .avatar-text {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Fraunces', sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: white;
@@ -900,7 +882,7 @@ onUnmounted(() => {
 }
 
 .page-title {
-  font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
+  font-family: 'Fraunces', 'Noto Sans SC', sans-serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--text-primary);
