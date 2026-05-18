@@ -63,4 +63,4 @@ docker compose up -d
 | `DB_URL` | 数据库 JDBC URL | `jdbc:mysql://localhost:3306/livestock_farming` |
 | `DB_USERNAME` | 数据库用户名 | `root` |
 | `DB_PASSWORD` | 数据库密码 | `252629` |
-| `AI_API_KEY` | 硅基流动 API Key | `sk-bncbjax...` |
+| `AI_API_KEY` | 硅基流动 API Key | 无（需自行配置） |

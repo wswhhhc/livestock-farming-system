@@ -4,5 +4,5 @@ mybatis-plus:
 
 ai:
   enabled: true
-  api-key: ${AI_API_KEY:sk-bncbjaxrebrbvfavnorxcduepcacdejbrsjobjpwbumirknp}
+  api-key: ${AI_API_KEY:}
   model: deepseek-ai/DeepSeek-V3

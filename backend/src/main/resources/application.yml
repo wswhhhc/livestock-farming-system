@@ -23,5 +23,5 @@ mybatis-plus:
 ai:
   enabled: true
   api-url: https://api.siliconflow.cn/v1/chat/completions
-  api-key: ${AI_API_KEY:sk-bncbjaxrebrbvfavnorxcduepcacdejbrsjobjpwbumirknp}
+  api-key: ${AI_API_KEY:}
   model: deepseek-ai/DeepSeek-V3
